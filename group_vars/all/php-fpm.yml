@@ -1,6 +1,6 @@
 ---
 php__apt_repo: ppa:ondrej/php
-php__version: "{{ php_version | default('8.3') }}"
+php__version: "{{ php_version | default('7.2') }}"
 php__config_path: "/etc/php/{{ php__version }}/fpm"
 
 php__config_fpm_php_ini:

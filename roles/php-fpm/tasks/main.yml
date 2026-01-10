@@ -41,6 +41,10 @@
   register: php_setup
   notify: restart php-fpm
 
+- name: Set PHP {{ php__version }} as default CLI
+  command: update-alternatives --set php /usr/bin/php{{ php__version }}
+  changed_when: false
+
 - name: Create custom PHP settings in conf.d
   template:
     src: php-custom.ini.j2

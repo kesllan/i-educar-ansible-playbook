@@ -128,7 +128,7 @@
     version: "{{ ieducar__version }}"
     dest: "{{ ieducar__base_path }}"
     force: yes
-    update: no
+    update: yes
     clone: yes
 
 - name: Download Composer installer

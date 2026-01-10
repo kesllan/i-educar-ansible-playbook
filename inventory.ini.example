@@ -17,10 +17,10 @@
 ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 
 # ──────────────── PostgreSQL Settings ────────────────
-#postgresql_version=15
+#postgresql_version=16
 
 # ────────────────── PHP Settings ─────────────────────
-#php_version=8.3
+#php_version=7.2
 
 # ──────────────── Composer Settings ──────────────────
 #composer_version=2.7.7
@@ -28,7 +28,7 @@ ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 # ────────────── i-Educar Core Settings ───────────────
 # Repository and version
 #ieducar_url_repository=https://github.com/portabilis/i-educar.git
-#ieducar_version=2.9
+#ieducar_version=2.10
 
 # Installation path
 #ieducar_base_path=/var/www/ieducar
@@ -49,12 +49,12 @@ ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 
 # ─────── i-Educar Reports Package (Community) ───────
 #ieducar_install_reports_package_community_edition=true
-#ieducar_version_reports_package_community_edition=2.9
+#ieducar_version_reports_package_community_edition=2.10
 #ieducar_url_repository_reports_package_community_edition=https://github.com/portabilis/i-educar-reports-package.git
 
 # ─────── i-Educar Educacenso Package (Community) ───────
 #ieducar_install_educacenso_package_community_edition=true
-#ieducar_version_educacenso_package_community_edition=2.9
+#ieducar_version_educacenso_package_community_edition=2.10
 #ieducar_url_repository_educacenso_package_community_edition=https://github.com/portabilis/i-educar-educacenso-package.git
 
 # ──────────────── Domain and SSL Settings ────────────────

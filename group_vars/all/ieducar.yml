@@ -26,16 +26,16 @@ ieducar__env_vars:
       {{ 'true' if (ieducar__with_domain and ieducar__use_ssl) else 'false' }}
 
 ieducar__base_path: "{{ ieducar_base_path | default('/var/www/ieducar') }}"
-ieducar__version: "{{ ieducar_version | default('2.9') }}"
+ieducar__version: "{{ ieducar_version | default('2.10') }}"
 ieducar__url_repository: "{{ ieducar_url_repository | default('https://github.com/portabilis/i-educar.git') }}"
 ieducar__deployment_type: "{{ ieducar_deployment_type | default('ieducar-ce') }}"
 
 ieducar__install_reports_package_community_edition: "{{ ieducar_install_reports_package_community_edition | default('true') }}"
-ieducar__version_reports_package_community_edition: "{{ ieducar_version_reports_package_community_edition | default('2.9') }}"
+ieducar__version_reports_package_community_edition: "{{ ieducar_version_reports_package_community_edition | default('2.10') }}"
 ieducar__url_repository_reports_package_community_edition: "{{ ieducar_url_repository_reports_package_community_edition | default('https://github.com/portabilis/i-educar-reports-package.git') }}"
 
 ieducar__install_educacenso_package_community_edition: "{{ ieducar_install_educacenso_package_community_edition | default('true') }}"
-ieducar__version_educacenso_package_community_edition: "{{ ieducar_version_educacenso_package_community_edition | default('2.9') }}"
+ieducar__version_educacenso_package_community_edition: "{{ ieducar_version_educacenso_package_community_edition | default('2.10') }}"
 ieducar__url_repository_educacenso_package_community_edition: "{{ ieducar_url_repository_educacenso_package_community_edition | default('https://github.com/portabilis/i-educar-educacenso-package.git') }}"
 
 ieducar__postgresql_users:
