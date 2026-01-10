@@ -1,2 +1,2 @@
 ---
-composer__version: "{{ composer_version | default('2.7.7') }}"
+composer__version: "{{ composer_version | default('1.10.27') }}"
