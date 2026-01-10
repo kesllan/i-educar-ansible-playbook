@@ -140,14 +140,14 @@
 - name: Validate Composer installer hash
   shell: |
     HASH=$(curl -sS https://composer.github.io/installer.sig)
-    php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;"
+    /usr/bin/php{{ php__version }} -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('/tmp/composer-setup.php'); } echo PHP_EOL;"
   args:
     executable: /bin/bash
 
 - name: Install Composer
   become: true
   become_user: root
-  command: php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer --version={{ composer__version }}
+  command: /usr/bin/php{{ php__version }} /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer --version={{ composer__version }}
 
 - name: Create .env file from .env.example if not exists
   command: cp .env.example .env
@@ -272,11 +272,11 @@
     chdir: "{{ ieducar__base_path }}"
     executable: /bin/bash
   shell: |
-    composer new-install
+    /usr/bin/php{{ php__version }} /usr/local/bin/composer new-install
   notify: restart ieducar
 
 - name: Create symlink for Laravel storage if not exists
-  command: php artisan storage:link
+  command: /usr/bin/php{{ php__version }} artisan storage:link
   args:
     chdir: "{{ ieducar__base_path }}"
     creates: "{{ ieducar__base_path }}/public/storage"

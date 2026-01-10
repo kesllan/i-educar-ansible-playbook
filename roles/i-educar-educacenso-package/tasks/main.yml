@@ -21,11 +21,11 @@
     COMPOSER_PROCESS_TIMEOUT: "900"
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: composer update-install
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer update-install
   when: ieducar__install_educacenso_package_community_edition | bool
 
 - name: Clear cache Educacenso Package of i-Educar
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: php artisan cache:clear
+  command: /usr/bin/php{{ php__version }} artisan cache:clear
   when: ieducar__install_educacenso_package_community_edition | bool

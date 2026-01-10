@@ -21,24 +21,24 @@
     COMPOSER_PROCESS_TIMEOUT: "900"
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: composer update-install
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer update-install
   when: ieducar__install_reports_package_community_edition | bool
 
 - name: Link community reports
-  command: php artisan community:reports:link
+  command: /usr/bin/php{{ php__version }} artisan community:reports:link
   args:
     chdir: "{{ ieducar__base_path }}"
   when: ieducar__install_reports_package_community_edition | bool
 
 - name: Compile community reports
-  command: php artisan community:reports:install
+  command: /usr/bin/php{{ php__version }} artisan community:reports:install
   args:
     chdir: "{{ ieducar__base_path }}"
   when: ieducar__install_reports_package_community_edition | bool
   notify: restart ieducar
 
 - name: Publish community reports
-  command: php artisan vendor:publish --tag=reports-assets --ansi
+  command: /usr/bin/php{{ php__version }} artisan vendor:publish --tag=reports-assets --ansi
   args:
     chdir: "{{ ieducar__base_path }}"
   when: ieducar__install_reports_package_community_edition | bool
@@ -47,5 +47,5 @@
 - name: Clear cache Report Package of i-Educar
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: php artisan cache:clear
+  command: /usr/bin/php{{ php__version }} artisan cache:clear
   when: ieducar__install_reports_package_community_edition | bool
