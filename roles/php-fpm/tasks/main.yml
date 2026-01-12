@@ -38,6 +38,7 @@
     - php{{ php__version }}-tokenizer
     - php{{ php__version }}-xmlreader
     - php{{ php__version }}-xmlwriter
+    - php{{ php__version }}-redis
   register: php_setup
   notify: restart php-fpm
 

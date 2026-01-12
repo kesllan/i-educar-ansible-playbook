@@ -11,7 +11,7 @@
     version: "{{ ieducar__version_reports_package_community_edition }}"
     dest: "{{ ieducar__base_path }}/packages/portabilis/i-educar-reports-package"
     force: yes
-    update: no
+    update: yes
     clone: yes
   when: ieducar__install_reports_package_community_edition | bool
 
@@ -21,13 +21,15 @@
     COMPOSER_PROCESS_TIMEOUT: "900"
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer update-install
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer plug-and-play
   when: ieducar__install_reports_package_community_edition | bool
 
-- name: Link community reports
-  command: /usr/bin/php{{ php__version }} artisan community:reports:link
+- name: Run composer dump-autoload
+  environment:
+    COMPOSER_ALLOW_SUPERUSER: "1"
   args:
     chdir: "{{ ieducar__base_path }}"
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer dump-autoload
   when: ieducar__install_reports_package_community_edition | bool
 
 - name: Compile community reports

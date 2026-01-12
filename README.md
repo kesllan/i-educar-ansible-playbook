@@ -49,6 +49,61 @@ Repositório de automação para instalação e configuração completa da aplic
 
 ---
 
+## ⚙️ Configuração de Ambientes
+
+O projeto utiliza a estrutura de `group_vars` do Ansible para gerenciar configurações específicas de cada ambiente.
+
+### Produção
+
+Para configurar o ambiente de produção, edite o arquivo `group_vars/production/main.yml`.
+Este arquivo deve conter variáveis otimizadas para segurança e performance:
+
+```yaml
+# group_vars/production/main.yml
+ieducar_app_env: production
+ieducar_app_debug: false
+```
+
+Execute o playbook apontando para o inventário de produção (se houver grupos separados) ou use o limit:
+
+```bash
+ansible-playbook playbook.yml -i inventory.ini -l production
+```
+
+### Desenvolvimento
+
+Para ambiente de desenvolvimento, utilize `group_vars/development/main.yml`.
+Aqui o modo debug geralmente é ativado:
+
+```yaml
+# group_vars/development/main.yml
+ieducar_app_env: local
+ieducar_app_debug: true
+```
+
+Execute definindo o host de desenvolvimento:
+
+```bash
+ansible-playbook playbook.yml -i inventory.ini -l development
+```
+
+### Variáveis Globais
+
+Todas as configurações comuns (versões de software, configurações do Nginx, PHP, PostgreSQL) estão distribuídas em `group_vars/all/*.yml`.
+
+### Otimização Automática para Produção
+
+O sistema detecta automaticamente o ambiente através da variável `ieducar_app_env`. Se não for especificada, o padrão é **production**.
+
+Quando em modo produção (`ieducar_app_env: production`), o playbook aplica automaticamente configurações de segurança e performance:
+- **i-Educar**: `APP_DEBUG` é desativado (`false`).
+- **PHP**: `display_errors` é desativado (`Off`).
+- **Nginx**: `server_tokens` é ocultado (`off`).
+
+Para ambiente de desenvolvimento, basta definir `ieducar_app_env: local` (como feito em `group_vars/development/main.yml`) e essas travas de segurança são relaxadas para facilitar o debug.
+
+---
+
 ## 🔐 Modo de Autenticação no Servidor de Destino
 
 ### Chave SSH (recomendado)

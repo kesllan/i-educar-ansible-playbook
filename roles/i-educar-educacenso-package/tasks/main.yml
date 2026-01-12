@@ -11,7 +11,7 @@
     version: "{{ ieducar__version_educacenso_package_community_edition }}"
     dest: "{{ ieducar__base_path }}/packages/portabilis/i-educar-educacenso-package"
     force: yes
-    update: no
+    update: yes
     clone: yes
   when: ieducar__install_educacenso_package_community_edition | bool
 
@@ -21,7 +21,15 @@
     COMPOSER_PROCESS_TIMEOUT: "900"
   args:
     chdir: "{{ ieducar__base_path }}"
-  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer update-install
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer plug-and-play
+  when: ieducar__install_educacenso_package_community_edition | bool
+
+- name: Run composer dump-autoload
+  environment:
+    COMPOSER_ALLOW_SUPERUSER: "1"
+  args:
+    chdir: "{{ ieducar__base_path }}"
+  command: /usr/bin/php{{ php__version }} /usr/local/bin/composer dump-autoload
   when: ieducar__install_educacenso_package_community_edition | bool
 
 - name: Clear cache Educacenso Package of i-Educar

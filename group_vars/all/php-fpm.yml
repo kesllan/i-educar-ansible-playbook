@@ -1,6 +1,6 @@
 ---
 php__apt_repo: ppa:ondrej/php
-php__version: "{{ php_version | default('7.2') }}"
+php__version: "{{ php_version | default('8.2') }}"
 php__config_path: "/etc/php/{{ php__version }}/fpm"
 
 php__config_fpm_php_ini:
@@ -12,6 +12,8 @@ php__config_fpm_php_ini:
     value: '2048M'
   - option: max_execution_time
     value: '300'
+  - option: display_errors
+    value: "{{ 'Off' if ieducar_app_env | default('production') == 'production' else 'On' }}"
 
 php__config_fpm_pool_www_conf:
   - option: request_terminate_timeout

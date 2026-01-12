@@ -32,3 +32,5 @@ nginx__global_settings:
     value: '1m'
   - option: large_client_header_buffers
     value: '4 8k'
+  - option: server_tokens
+    value: "{{ 'off' if ieducar_app_env | default('production') == 'production' else 'on' }}"

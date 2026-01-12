@@ -212,7 +212,6 @@
 - name: Configure global settings i-Educar
   lineinfile:
     dest: "{{ ieducar__base_path }}/.env"
-    backrefs: yes
     regexp: "^{{ item.option }}.+$"
     line: "{{ item.option }}={{ item.value }}"
     state: present
@@ -220,6 +219,12 @@
   loop: "{{ ieducar__env_vars }}"
   loop_control:
     label: "{{ item.option }}"
+
+- name: Clear Laravel config cache
+  command: /usr/bin/php{{ php__version }} artisan config:clear
+  args:
+    chdir: "{{ ieducar__base_path }}"
+  notify: restart ieducar
 
 - name: Deploy NGINX location snippet for i-Educar
   become_user: root
@@ -275,6 +280,12 @@
     /usr/bin/php{{ php__version }} /usr/local/bin/composer new-install
   notify: restart ieducar
 
+- name: Run database migrations
+  command: /usr/bin/php{{ php__version }} artisan migrate --force
+  args:
+    chdir: "{{ ieducar__base_path }}"
+  notify: restart ieducar
+
 - name: Create symlink for Laravel storage if not exists
   command: /usr/bin/php{{ php__version }} artisan storage:link
   args:
@@ -299,3 +310,15 @@
         - { entity: "www-data", etype: group }
       loop_control:
         label: "{{ item.entity }}"
+
+- name: Fix permissions for storage and bootstrap/cache
+  become: true
+  file:
+    path: "{{ item }}"
+    owner: "{{ app__run_user }}"
+    group: www-data
+    recurse: yes
+    mode: '0775'
+  loop:
+    - "{{ ieducar__base_path }}/storage"
+    - "{{ ieducar__base_path }}/bootstrap/cache"

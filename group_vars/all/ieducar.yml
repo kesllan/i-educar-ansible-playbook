@@ -1,9 +1,12 @@
 ---
+# Default environment is production unless overridden
+ieducar_app_env: "production"
+
 ieducar__env_vars:
   - option: 'APP_ENV'
-    value: "{{ ieducar_app_env | default('production') }}"
+    value: "{{ ieducar_app_env }}"
   - option: 'APP_DEBUG'
-    value: "{{ ieducar_app_debug | default('false') }}"
+    value: "{{ ieducar_app_debug | default('false' if ieducar_app_env == 'production' else 'true') }}"
   - option: 'DB_HOST'
     value: "{{ ieducar_db_host | default('127.0.0.1') }}"
   - option: 'DB_PORT'
@@ -17,13 +20,17 @@ ieducar__env_vars:
   # Extras when domain + SSL is enabled
   - option: 'APP_URL'
     value: >-
-      {{ 'https://' ~ ieducar__name_domain if (ieducar__with_domain and ieducar__use_ssl) else 'http://localhost' }}
+      {{ 'https://' ~ ieducar__name_domain if (ieducar__with_domain | bool and ieducar__use_ssl | bool) else 'http://localhost' }}
   - option: 'APP_DEFAULT_HOST'
     value: >-
-      {{ ieducar__name_domain if ieducar__with_domain else 'localhost' }}
+      {{ ieducar__name_domain if ieducar__with_domain | bool else 'localhost' }}
   - option: 'ASSETS_SECURE'
     value: >-
-      {{ 'true' if (ieducar__with_domain and ieducar__use_ssl) else 'false' }}
+      {{ 'true' if (ieducar__with_domain | bool and ieducar__use_ssl | bool) else 'false' }}
+  - option: 'CACHE_STORE'
+    value: "{{ ieducar_cache_store | default('redis') }}"
+  - option: 'REDIS_HOST'
+    value: "{{ ieducar_redis_host | default('127.0.0.1') }}"
 
 ieducar__base_path: "{{ ieducar_base_path | default('/var/www/ieducar') }}"
 ieducar__version: "{{ ieducar_version | default('2.10') }}"
@@ -72,9 +79,9 @@ ieducar__letsencrypt_email: "{{ ieducar_letsencrypt_email | default('email@domai
 ieducar__nginx_template_mode: >-
   {{
     'with-domain-and-ssl'
-      if ieducar__with_domain and ieducar__use_ssl else
+      if (ieducar__with_domain | bool) and (ieducar__use_ssl | bool) else
     'with-domain-without-ssl'
-      if ieducar__with_domain and not ieducar__use_ssl else
+      if (ieducar__with_domain | bool) and not (ieducar__use_ssl | bool) else
     'without-domain-and-without-ssl'
   }}
 
